@@ -1,7 +1,7 @@
 
 #1 - Set path (My path is E:/JHU/Course4/Week1/Project")
 ---------------------------------------------------
-  setwd("E:/JHU/Course4/Week1/Project")
+setwd("E:/JHU/Course4/Week1/Project")
 getwd()
 
 
@@ -23,7 +23,6 @@ unzip(zipfile,overwrite = T, exdir = "./data")
 # read data into R
 files <- file('./household_power_consumption.txt')
 data <- read.table(text = grep("^[1,2]/2/2007",readLines(files),value=TRUE), sep = ';', col.names = c("Date", "Time", "Global_active_power", "Global_reactive_power", "Voltage", "Global_intensity", "Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), na.strings = '?')
-dim(data)
 
 #3- Create Graph Plot 4
 
@@ -42,4 +41,3 @@ legend('topright', col = c('black', 'red', 'blue'), legend = c('Sub_metering_1',
 plot(data$DateTime, data$Global_reactive_power, xlab = 'datetime', ylab = 'Global_reactive_power', type = 'l')
 # close device
 dev.off()
-
