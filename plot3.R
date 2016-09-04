@@ -17,7 +17,7 @@ destfile <- "./data/household_power_consumption.zip"
 
 zipfile <- "./data/household_power_consumption.zip"
 download.file(fileUrl, destfile, method = "curl")
-unzip(zipfile,overwrite = T, exdir = "./data")
+unzip(zipfile, exdir = "./data")
 
 # read data into R
 files <- file('./household_power_consumption.txt')
@@ -27,8 +27,8 @@ data <- read.table(text = grep("^[1,2]/2/2007",readLines(files),value=TRUE), sep
 #3- Create/Plot Graph Plot 3
 
 # open device
-if(!file.exists('graphplot')) dir.create('graphplot')
-png(filename = './graphplot/plot3.png', width = 480, height = 480, units='px')
+
+png(filename = './plot3.png', width = 480, height = 480, units='px')
 # plot figure
 Sys.setlocale(category = "LC_ALL", locale = "english")
 plot(data$DateTime, data$Sub_metering_1, xlab = '', ylab = 'Energy sub metering', type = 'l')
