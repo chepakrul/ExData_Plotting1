@@ -19,21 +19,29 @@ zipfile <- "./data/household_power_consumption.zip"
 download.file(fileUrl, destfile)
 unzip(zipfile, exdir = "./data")
 
-# read data into R
-files <- file('./data/household_power_consumption.txt')
-data <- read.table(text = grep("^[1,2]/2/2007",readLines(files),value=TRUE), sep = ';', col.names = c("Date", "Time", "Global_active_power", "Global_reactive_power", "Voltage", "Global_intensity", "Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), na.strings = '?')
-
-
 #3- Create/Plot Graph Plot 3
 
-# open device
+# Load SQL library in order to filter the data set
+library(sqldf)
 
-png(filename = './plot3.png', width = 480, height = 480, units='px')
-# plot figure
-Sys.setlocale(category = "LC_ALL", locale = "english")
-plot(data$DateTime, data$Sub_metering_1, xlab = '', ylab = 'Energy sub metering', type = 'l')
-lines(data$DateTime, data$Sub_metering_2, col = 'red')
-lines(data$DateTime, data$Sub_metering_3, col = 'blue')
-legend('topright', col = c('black', 'red', 'blue'), legend = c('Sub_metering_1', 'Sub_metering_2', 'Sub_metering_3'), lwd = 1)
-# close device
+# Load filtered data from the data file
+ds <- read.csv.sql(file = "./data/household_power_consumption.txt", sep = ";", header = TRUE , sql = "select * from file where Date='1/2/2007' or Date='2/2/2007'")
+
+# Change column data type to numeric
+ds$gap <- as.numeric(ds$Global_active_power)
+ds$dt  <- strptime(paste(ds$Date, ds$Time, sep=" "), "%d/%m/%Y %H:%M:%S") 
+ds$sm1 <- as.numeric(ds$Sub_metering_1)
+ds$sm2 <- as.numeric(ds$Sub_metering_2)
+ds$sm3 <- as.numeric(ds$Sub_metering_3)
+
+# Create PNG graphic device
+png("plot3.png", width=480, height=480)
+
+# Generate graph
+with(ds, plot(dt,sm1,type="l", ylab="Energy Submetering", xlab=""))
+with(ds, lines(dt, sm2, type="l", col="red"))
+with(ds, lines(dt, sm3, type="l", col="blue"))
+legend("topright", c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), lty=1, lwd=2.5, col=c("black", "red", "blue"))
+
+# Reset the device
 dev.off()
