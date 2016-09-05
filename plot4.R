@@ -41,7 +41,7 @@ png("plot4.png", width=480, height=480)
 # Generate graph
 par(mfrow = c(2,2))
 
-with(ds, plot(dt, gap, type="l", xlab="", ylab="Global Active Power", cex=0.2))
+with(ds, plot(dt, gap, type="l", xlab="", ylab="Global Active Power (kilowatts)", cex=0.2))
 with(ds, plot(dt, vol, type="l", xlab="datetime", ylab="Voltage"))
 with(ds, plot(dt, sm1, type="l", ylab="Energy Submetering", xlab=""))
 with(ds, lines(dt, sm2, type="l", col="red"))
