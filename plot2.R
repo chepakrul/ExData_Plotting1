@@ -15,7 +15,7 @@ fileUrl <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_powe
 destfile <- "./data/household_power_consumption.zip"
 
 zipfile <- "./data/household_power_consumption.zip"
-download.file(fileUrl, destfile, method = "curl")
+download.file(fileUrl, destfile)
 unzip(zipfile, exdir = "./data")
 
 
